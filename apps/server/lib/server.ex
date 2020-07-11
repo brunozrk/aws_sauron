@@ -7,4 +7,9 @@ defmodule Server do
     |> Sqs.list()
     |> Sns.subscriptions_by_queue()
   end
+
+  def sns(prefixes) do
+    prefixes
+    |> Sns.list()
+  end
 end

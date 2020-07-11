@@ -5,6 +5,12 @@ defmodule Server.Extractor do
     name
   end
 
+  def queue_name_from_arn(arn) do
+    "arn:aws:sqs:" <> tail = arn
+    [_region, _account_id, name] = String.split(tail, ":")
+    name
+  end
+
   def topic_name_from_arn(arn) do
     "arn:aws:sns:sa-east-1:" <> tail = arn
     [account_id, name] = String.split(tail, ":")
