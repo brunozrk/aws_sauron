@@ -26,11 +26,12 @@ defmodule Server.MixProject do
   defp deps do
     [
       {:ex_aws, "~> 2.1"},
-      {:ex_aws_sns, "~> 2.0"},
+      {:ex_aws_sns, "~> 2.1"},
       {:ex_aws_sqs, "~> 3.2"},
       {:jason, "~> 1.2"},
       {:saxy, "~> 1.1"},
-      {:hackney, "~> 1.9"}
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 end

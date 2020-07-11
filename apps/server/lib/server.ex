@@ -1,18 +1,11 @@
 defmodule Server do
-  @moduledoc """
-  Documentation for `Server`.
-  """
+  alias Server.Sqs
+  alias Server.Sns
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Server.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  # @spec sqs(list(String.t()))
+  def sqs(prefixes) do
+    prefixes
+    |> Sqs.list()
+    |> Sns.subscriptions_by_queue()
   end
 end
