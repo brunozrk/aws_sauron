@@ -16,3 +16,8 @@ import Config
 #       format: "$date $time [$level] $metadata$message\n",
 #       metadata: [:user_id]
 #
+
+config :ex_aws,
+  # access_key_id: {:system, "AWS_ACCESS_KEY_ID"},
+  # secret_access_key: {:system, "AWS_SECRET_ACCESS_KEY"}
+  json_codec: Jason
