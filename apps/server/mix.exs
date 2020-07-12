@@ -28,6 +28,7 @@ defmodule Server.MixProject do
       {:ex_aws, "~> 2.1"},
       {:ex_aws_sns, "~> 2.1"},
       {:ex_aws_sqs, "~> 3.2"},
+      {:ex_aws_events, "~> 0.1.0"},
       {:jason, "~> 1.2"},
       {:saxy, "~> 1.1"},
       {:hackney, "~> 1.9"},
