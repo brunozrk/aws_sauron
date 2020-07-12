@@ -1,12 +1,17 @@
 defmodule Server.Sns do
-  def subscriptions_by_queue(queues) do
-    subs = Server.SnsData.get_subscriptions()
+  def subscriptions_by_arn(arns) do
+    subs = all_subscriptions()
 
-    Enum.map(queues, &filter_by_queue(&1, subs))
+    Enum.map(arns, fn arn ->
+      %{
+        arn: arn,
+        subscriptions: subs |> Enum.filter(&(&1.endpoint == arn))
+      }
+    end)
   end
 
   def list(prefixes) do
-    Server.SnsData.get_subscriptions()
+    all_subscriptions()
     |> Enum.filter(fn s ->
       Enum.any?(prefixes, &(s.topic_arn =~ &1))
     end)
@@ -21,15 +26,7 @@ defmodule Server.Sns do
     end)
   end
 
-  defp filter_by_queue(queue, subs) do
-    subscriptions =
-      subs
-      |> Enum.filter(&(&1.endpoint =~ queue))
-      |> Enum.map(&Server.Extractor.topic_name_from_arn(&1.topic_arn))
-
-    %{
-      queue: queue,
-      subscriptions: subscriptions
-    }
+  def all_subscriptions() do
+    Server.SnsData.get_subscriptions()
   end
 end

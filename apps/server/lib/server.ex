@@ -5,7 +5,8 @@ defmodule Server do
   def sqs(prefixes) do
     prefixes
     |> Sqs.list()
-    |> Sns.subscriptions_by_queue()
+    |> Enum.map(&Server.Parser.url_to_arn/1)
+    |> Sns.subscriptions_by_arn()
   end
 
   def sns(prefixes) do
