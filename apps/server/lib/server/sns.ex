@@ -1,13 +1,6 @@
 defmodule Server.Sns do
-  def subscriptions_by_arn(arns) do
-    subs = all_subscriptions()
-
-    Enum.map(arns, fn arn ->
-      %{
-        arn: arn,
-        subscriptions: subs |> Enum.filter(&(&1.endpoint == arn))
-      }
-    end)
+  def subscriptions_by_arn(arn) do
+    all_subscriptions() |> Enum.filter(&(&1.endpoint == arn))
   end
 
   def list(prefixes) do
