@@ -4,7 +4,7 @@ defmodule Server do
   alias Server.Events
 
   def sqs(prefixes, opts \\ []) do
-    ignore_pattern = opts[:ignore_pattern]
+    ignore_pattern = opts[:ignore_pattern] || ""
 
     prefixes
     |> list_queues(ignore_pattern)
@@ -23,7 +23,7 @@ defmodule Server do
 
       queues =
         case ignore_pattern do
-          nil -> queues
+          "" -> queues
           _ -> queues |> Enum.filter(&(!(&1 =~ ignore_pattern)))
         end
 
