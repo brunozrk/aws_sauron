@@ -11,10 +11,9 @@ defmodule Web.Application do
       # Start the Telemetry supervisor
       Web.Telemetry,
       # Start the Endpoint (http/https)
-      Web.Endpoint,
+      Web.Endpoint
       # Start a worker by calling: Web.Worker.start_link(arg)
       # {Web.Worker, arg}
-
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
