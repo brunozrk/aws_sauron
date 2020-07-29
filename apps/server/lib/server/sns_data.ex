@@ -2,10 +2,12 @@ defmodule Server.SnsData do
   @name :sns_data
   @refresh_interval :timer.seconds(30)
 
+  require Logger
+
   use GenServer
 
   def start_link(_) do
-    IO.puts("Starting #{__MODULE__}...")
+    Logger.info("Starting #{__MODULE__}...")
     GenServer.start_link(__MODULE__, %{}, name: @name)
   end
 
@@ -23,7 +25,7 @@ defmodule Server.SnsData do
   end
 
   def handle_info(:refresh, _state) do
-    IO.puts("refreshing data...")
+    Logger.info("refreshing data...")
     subs = all_subscriptions()
     schedule_refresh()
 
