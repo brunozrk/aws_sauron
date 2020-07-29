@@ -2,6 +2,8 @@ defmodule Server.SnsData do
   @name :sns_data
   @refresh_interval :timer.seconds(30)
 
+  alias Server.Aws
+
   require Logger
 
   use GenServer
@@ -41,8 +43,8 @@ defmodule Server.SnsData do
   end
 
   defp all_subscriptions() do
-    {:ok, %{body: %{next_token: next_token, subscriptions: subscriptions}}} =
-      ExAws.SNS.list_subscriptions() |> ExAws.request()
+    %{next_token: next_token, subscriptions: subscriptions} =
+      Aws.client().sns_list_subscriptions()
 
     list_subscriptions(subscriptions, next_token)
   end
@@ -50,8 +52,8 @@ defmodule Server.SnsData do
   defp list_subscriptions(subscriptions, ""), do: subscriptions
 
   defp list_subscriptions(current_subscriptions, next_token) do
-    {:ok, %{body: %{next_token: next_token, subscriptions: subscriptions}}} =
-      ExAws.SNS.list_subscriptions(next_token) |> ExAws.request()
+    %{next_token: next_token, subscriptions: subscriptions} =
+      Aws.client().sns_list_subscriptions(next_token)
 
     list_subscriptions(subscriptions ++ current_subscriptions, next_token)
   end

@@ -1,7 +1,7 @@
 defmodule Server do
-  alias Server.Sqs
   alias Server.Sns
   alias Server.Events
+  alias Server.Aws
 
   def sqs(prefixes, opts \\ []) do
     ignore_pattern = opts[:ignore_pattern] || ""
@@ -12,14 +12,9 @@ defmodule Server do
     |> append_subscriptions_and_rules()
   end
 
-  def sns(prefixes) do
-    prefixes
-    |> Sns.list()
-  end
-
   defp list_queues(prefixes, ignore_pattern) do
     Enum.map(prefixes, fn prefix ->
-      queues = Sqs.list_queues(prefix)
+      queues = Aws.client().sqs_list_queues(prefix)
 
       queues =
         case ignore_pattern do
