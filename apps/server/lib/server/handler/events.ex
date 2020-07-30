@@ -1,10 +1,10 @@
-defmodule Server.Events do
+defmodule Server.Handler.Events do
   alias Server.Aws
 
   def rules_by_arn(arn) do
     Aws.client().events_list_rule_names_by_target(arn)
     |> Enum.map(fn rule ->
-      info = rule_info(arn, rule)
+      info = rule_info(rule)
 
       %{
         rule: rule,
@@ -21,7 +21,7 @@ defmodule Server.Events do
     |> Enum.map(&(&1["Input"] || ""))
   end
 
-  defp rule_info(arn, rule) do
+  defp rule_info(rule) do
     Aws.client().events_list_rules(rule)
     |> Enum.find(&(&1["Name"] == rule))
   end

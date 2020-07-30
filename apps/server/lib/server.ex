@@ -1,7 +1,8 @@
 defmodule Server do
-  alias Server.Sns
-  alias Server.Events
   alias Server.Aws
+  alias Server.Handler.Events
+  alias Server.Handler.Sns
+  alias Server.Parser
 
   def sqs(prefixes, opts \\ []) do
     ignore_pattern = opts[:ignore_pattern] || ""
@@ -31,7 +32,7 @@ defmodule Server do
 
   defp convert_url_to_arn(queues) do
     Enum.map(queues, fn queue_map ->
-      %{queue_map | queues: queue_map.queues |> Enum.map(&Server.Parser.url_to_arn/1)}
+      %{queue_map | queues: queue_map.queues |> Enum.map(&Parser.url_to_arn/1)}
     end)
   end
 
