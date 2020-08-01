@@ -14,7 +14,7 @@ defmodule Web.PageView do
 
         queues_without_info_text =
           queues_without_info
-          |> Enum.map(fn queue -> Server.Extractor.queue_name_from_arn(queue[:arn]) end)
+          |> Enum.map(fn queue -> queue_name_from_arn(queue[:arn]) end)
           |> Enum.join("<br/>")
 
         queues_without_info_connection =
@@ -33,14 +33,14 @@ defmodule Web.PageView do
         queues_with_info_connections =
           queues_with_info
           |> Enum.flat_map(fn queue ->
-            queue_name = Server.Extractor.queue_name_from_arn(queue[:arn])
+            queue_name = queue_name_from_arn(queue[:arn])
 
             root_connection =
               "#{prefix_map[:prefix]}p[#{prefix_map[:prefix]}]:::prefix --> #{queue_name}:::sqs"
 
             topics =
               queue[:subscriptions]
-              |> Enum.map(fn sns -> Server.Extractor.topic_name_from_arn(sns[:topic_arn]) end)
+              |> Enum.map(fn sns -> topic_name_from_arn(sns[:topic_arn]) end)
               |> Enum.join("<br/>")
 
             topics_connection =
@@ -95,5 +95,17 @@ defmodule Web.PageView do
       end)
 
     [queues_without_info, queues_with_info]
+  end
+
+  defp queue_name_from_arn(arn) do
+    "arn:aws:sqs:" <> tail = arn
+    [_region, _account_id, name] = String.split(tail, ":")
+    name
+  end
+
+  defp topic_name_from_arn(arn) do
+    "arn:aws:sns:" <> tail = arn
+    [_region, _account_id, name] = String.split(tail, ":")
+    name
   end
 end
