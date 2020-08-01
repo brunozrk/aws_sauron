@@ -6,6 +6,8 @@ If your architecture is based on this services, this project may help you have a
 
 Lets say you have multiple SQS queues, some of them subscribe for some SNS Topics, some of them receive events from Cloudwatch rules. With Amazon console it is hard to see it, even further if you have a lot of it. AWS Sauron intends to help you with that.
 
+It uses [Mermaid](https://mermaid-js.github.io/mermaid/#/) to build the flow chart.
+
 ## Example
 
 ![Aws Sauron Example](images/aws_sauron.png)
