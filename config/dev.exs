@@ -54,3 +54,7 @@ config :web, Web.Endpoint,
       ~r"lib/web/templates/.*(eex)$"
     ]
   ]
+
+config :ex_aws,
+  region: System.get_env("AWS_REGION") || "sa-east-1",
+  json_codec: Jason

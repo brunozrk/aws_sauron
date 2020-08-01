@@ -28,12 +28,6 @@ config :web, Web.Endpoint,
 #       metadata: [:user_id]
 #
 
-config :ex_aws,
-  # access_key_id: {:system, "AWS_ACCESS_KEY_ID"},
-  # secret_access_key: {:system, "AWS_SECRET_ACCESS_KEY"}
-  region: System.get_env("AWS_REGION") || "sa-east-1",
-  json_codec: Jason
-
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
