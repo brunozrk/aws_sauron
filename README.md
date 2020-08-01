@@ -51,7 +51,7 @@ Now you can visit [localhost:4000](http://localhost:4000/) from your browser.
 docker run \
   --env AWS_ACCESS_KEY_ID=<REPLACE> \
   --env AWS_SECRET_ACCESS_KEY=<REPLACE> \
-  --env AWS_REGION=us-east-1 \
+  --env AWS_REGION=<REPLACE> \
   -p 4000:4000 \
   brunozrk/aws_sauron
 ```
