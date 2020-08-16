@@ -6,7 +6,7 @@ defmodule Server.Aws.Client do
 
   @behaviour Aws
 
-  @impl Aws
+  # @impl Aws
   def sqs_list_queues(prefix) do
     case SQS.list_queues(queue_name_prefix: prefix) |> ExAws.request() do
       {:ok, response} ->

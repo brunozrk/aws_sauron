@@ -25,5 +25,7 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
+    - name: Verify warnings in compile
+      run: mix compile --warnings-as-errors
     - name: Run tests
       run: mix test
