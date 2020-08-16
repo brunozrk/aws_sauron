@@ -27,5 +27,7 @@ jobs:
       run: mix deps.get
     - name: Verify warnings in compile
       run: mix compile --warnings-as-errors
+    - name: Code analysis
+      run: mix credo --strict
     - name: Run tests
       run: mix test
