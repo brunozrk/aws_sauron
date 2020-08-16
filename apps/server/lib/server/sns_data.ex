@@ -8,38 +8,47 @@ defmodule Server.SnsData do
 
   use GenServer
 
-  def start_link(_) do
-    Logger.info("Starting #{__MODULE__}...")
-    GenServer.start_link(__MODULE__, %{}, name: @name)
+  defmodule SnsDataStruct do
+    defstruct skip_load: false, subscriptions: []
+  end
+
+  def start_link(opts \\ []) do
+    skip_load = opts[:skip_load] || false
+    data = %SnsDataStruct{skip_load: skip_load}
+
+    Logger.debug("Starting #{__MODULE__}...")
+    GenServer.start_link(__MODULE__, data, name: @name)
   end
 
   def get_subscriptions() do
     GenServer.call(@name, :get_subscriptions)
   end
 
+  def refresh() do
+    send(@name, :refresh)
+  end
+
   # callbacks
 
-  def init(_state) do
-    subs = all_subscriptions()
-    schedule_refresh()
+  def init(state) do
+    if !state.skip_load do
+      refresh()
+    end
 
-    {:ok, subs}
+    {:ok, state}
   end
 
   def handle_info(:refresh, _state) do
-    Logger.info("refreshing data...")
+    Logger.debug("refreshing data...")
     subs = all_subscriptions()
-    schedule_refresh()
+    Logger.debug("refreshing data finished.")
 
-    {:noreply, subs}
+    Process.send_after(self(), :refresh, @refresh_interval)
+    {:noreply, %SnsDataStruct{subscriptions: subs}}
   end
 
   def handle_call(:get_subscriptions, _from, state) do
-    {:reply, state, state}
-  end
-
-  defp schedule_refresh() do
-    Process.send_after(self(), :refresh, @refresh_interval)
+    {:reply, state.subscriptions, state}
   end
 
   defp all_subscriptions() do

@@ -6,10 +6,17 @@ defmodule Server.Application do
   use Application
 
   def start(_type, _args) do
-    children = [
-      # Starts a worker by calling: Server.Worker.start_link(arg)
-      Server.SnsData
-    ]
+    children =
+      case Mix.env() do
+        :test ->
+          []
+
+        _ ->
+          [
+            # Starts a worker by calling: Server.Worker.start_link(arg)
+            Server.SnsData
+          ]
+      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
