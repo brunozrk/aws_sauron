@@ -10,6 +10,7 @@ defmodule Server.MixProject do
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixir: "~> 1.10",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -23,6 +24,9 @@ defmodule Server.MixProject do
     ]
   end
 
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   defp deps do
     [
       {:ex_aws, "~> 2.1"},
@@ -32,7 +36,8 @@ defmodule Server.MixProject do
       {:jason, "~> 1.2"},
       {:saxy, "~> 1.1"},
       {:hackney, "~> 1.9"},
-      {:sweet_xml, "~> 0.6"}
+      {:sweet_xml, "~> 0.6"},
+      {:mox, "~> 0.5", only: :test}
     ]
   end
 end

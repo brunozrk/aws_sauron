@@ -26,5 +26,4 @@ config :ex_aws,
   region: System.get_env("AWS_REGION") || "us-east-1",
   json_codec: Jason
 
-
 config :web, Web.Endpoint, server: true

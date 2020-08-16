@@ -3,8 +3,7 @@ defmodule Server.Aws do
 
   @type subscription :: %{
           endpoint: String.t(),
-          topic_arn: String.t(),
-          subscription_arn: String.t()
+          topic_arn: String.t()
         }
 
   @type subscriptions :: %{
