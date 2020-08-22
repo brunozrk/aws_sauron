@@ -5,10 +5,10 @@ defmodule Server.Application do
 
   use Application
 
-  def start(_type, _args) do
+  def start(_type, args) do
     children =
-      case Mix.env() do
-        :test ->
+      case args do
+        [env: :test] ->
           []
 
         _ ->

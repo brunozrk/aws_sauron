@@ -20,7 +20,7 @@ defmodule Server.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Server.Application, []}
+      mod: {Server.Application, [env: Mix.env()]}
     ]
   end
 
