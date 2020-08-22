@@ -1,4 +1,8 @@
 defmodule Server.Handler.Events do
+  @moduledoc """
+    Handles aws events requests
+  """
+
   alias Server.Aws
 
   def rules_by_arn(arn) do

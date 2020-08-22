@@ -1,4 +1,8 @@
 defmodule Server do
+  @moduledoc """
+    Responsible to orchestrate calls to aws and build sqs/sns/events hierarchy
+  """
+
   alias Server.Handler.Events
   alias Server.Handler.Sns
   alias Server.Handler.Sqs

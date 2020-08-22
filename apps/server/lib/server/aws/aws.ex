@@ -1,4 +1,8 @@
 defmodule Server.Aws do
+  @moduledoc """
+    Aws behaviour to be implemented in other Modules
+  """
+
   alias Server.Aws.Client
 
   @type subscription :: %{

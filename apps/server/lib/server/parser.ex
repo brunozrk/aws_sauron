@@ -1,4 +1,8 @@
 defmodule Server.Parser do
+  @moduledoc """
+    Helper methods to parse aws values
+  """
+
   @url_regex ~r/.\/\/(\w+)\.([\w|-]+)\D+\/(\d+)\/(\w+)/
 
   def url_to_arn(url) do

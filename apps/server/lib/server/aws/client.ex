@@ -1,8 +1,12 @@
 defmodule Server.Aws.Client do
-  alias Server.Aws
-  alias ExAws.SQS
-  alias ExAws.SNS
+  @moduledoc """
+    Client implementation fow Server.Aws behaviour
+  """
+
   alias ExAws.Events
+  alias ExAws.SNS
+  alias ExAws.SQS
+  alias Server.Aws
 
   @behaviour Aws
 

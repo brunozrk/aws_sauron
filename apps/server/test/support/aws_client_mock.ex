@@ -1,4 +1,8 @@
 defmodule Server.Test.AwsClientMock do
+  @moduledoc """
+    Mock for Server.Aws
+  """
+
   alias Server.Aws
 
   @behaviour Aws
