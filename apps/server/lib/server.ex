@@ -1,7 +1,7 @@
 defmodule Server do
-  alias Server.Aws
   alias Server.Handler.Events
   alias Server.Handler.Sns
+  alias Server.Handler.Sqs
   alias Server.Parser
 
   def sqs(prefixes, opts \\ []) do
@@ -15,7 +15,7 @@ defmodule Server do
 
   defp list_queues(prefixes, ignore_pattern) do
     Enum.map(prefixes, fn prefix ->
-      queues = Aws.client().sqs_list_queues(prefix)
+      queues = Sqs.list(prefix)
 
       queues =
         case ignore_pattern do
