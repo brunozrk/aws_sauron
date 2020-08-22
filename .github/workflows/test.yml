@@ -1,4 +1,4 @@
-name: Test
+name: Validation
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-elixir@v1
       with:
         elixir-version: '1.10.1'
-        otp-version: '22.2.7' # Define the OTP version [required]
+        otp-version: '22.2.7'
     - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
@@ -25,5 +25,9 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
+    - name: Verify warnings in compile
+      run: mix compile --warnings-as-errors
+    - name: Code analysis
+      run: mix credo --strict
     - name: Run tests
       run: mix test

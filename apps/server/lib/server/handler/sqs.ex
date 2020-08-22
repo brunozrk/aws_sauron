@@ -1,4 +1,8 @@
 defmodule Server.Handler.Sqs do
+  @moduledoc """
+    Handles aws sqs requests
+  """
+
   alias Server.Aws
 
   def list(prefix) do

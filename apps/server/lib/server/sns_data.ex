@@ -1,4 +1,8 @@
 defmodule Server.SnsData do
+  @moduledoc """
+    Fetches all sns subscriptions and store its state
+  """
+
   @name :sns_data
   @refresh_interval :timer.seconds(30)
 
@@ -9,6 +13,9 @@ defmodule Server.SnsData do
   use GenServer
 
   defmodule SnsDataStruct do
+    @moduledoc """
+      Sns Data struct
+    """
     defstruct skip_load: false, subscriptions: []
   end
 
@@ -20,11 +27,11 @@ defmodule Server.SnsData do
     GenServer.start_link(__MODULE__, data, name: @name)
   end
 
-  def get_subscriptions() do
+  def get_subscriptions do
     GenServer.call(@name, :get_subscriptions)
   end
 
-  def refresh() do
+  def refresh do
     send(@name, :refresh)
   end
 
@@ -51,7 +58,7 @@ defmodule Server.SnsData do
     {:reply, state.subscriptions, state}
   end
 
-  defp all_subscriptions() do
+  defp all_subscriptions do
     %{next_token: next_token, subscriptions: subscriptions} =
       Aws.client().sns_list_subscriptions()
 
