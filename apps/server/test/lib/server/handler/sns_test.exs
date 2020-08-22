@@ -1,34 +1,18 @@
 defmodule Server.Handler.SnsTest do
-  use ExUnit.Case, async: false
+  use SnsSetupCase, async: false
 
   alias Server.Handler.Sns
 
-  import Mox
-
-  setup do
-    stub_with(Server.Aws.Mock, Server.Test.AwsClientMock)
-
-    allow(
-      Server.Aws.Mock,
-      self(),
-      start_supervised!({Server.SnsData, skip_load: true})
-    )
-
-    Server.SnsData.refresh()
-
-    :ok
-  end
-
   describe "#subscriptions_by_arn/1" do
     test "filters subscriptions by arn endpoint" do
-      assert Sns.subscriptions_by_arn("endpoint:queue_1") == [
+      assert Sns.subscriptions_by_arn("arn:aws:sqs:sa-east-1:12345678:queue_1") == [
                %{
-                 endpoint: "endpoint:queue_1",
-                 topic_arn: "topic_arn:sns_1"
+                 endpoint: "arn:aws:sqs:sa-east-1:12345678:queue_1",
+                 topic_arn: "arn:aws:sns:sa-east-1:12345678:sns_1"
                },
                %{
-                 endpoint: "endpoint:queue_1",
-                 topic_arn: "topic_arn:sns_2"
+                 endpoint: "arn:aws:sqs:sa-east-1:12345678:queue_1",
+                 topic_arn: "arn:aws:sns:sa-east-1:12345678:sns_2"
                }
              ]
     end
