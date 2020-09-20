@@ -2,8 +2,9 @@ name: Publish Docker
 
 on:
   push:
-    branches: [ master ]
-    paths-ignore:
+    branches:
+      - master
+    paths:
       - VERSION
       - CHANGELOG.md
 
