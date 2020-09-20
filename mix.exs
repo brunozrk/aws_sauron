@@ -4,7 +4,7 @@ defmodule AwsSauron.MixProject do
   def project do
     [
       apps_path: "apps",
-      version: "0.1.0",
+      version: get_version(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       releases: [
@@ -16,6 +16,13 @@ defmodule AwsSauron.MixProject do
         ]
       ]
     ]
+  end
+
+  defp get_version do
+    case File.read("VERSION") do
+      {:ok, version} -> String.trim(version)
+      _ -> "0.0.0-unknown"
+    end
   end
 
   # Dependencies listed here are available only for this

@@ -1,7 +1,7 @@
-FROM elixir:1.10-alpine AS build
+FROM elixir:1.10-alpine AS base
 
 # install build dependencies
-RUN apk add --no-cache build-base npm
+RUN apk add --no-cache build-base npm git
 
 # prepare build dir
 WORKDIR /app
@@ -9,6 +9,9 @@ WORKDIR /app
 # install hex + rebar
 RUN mix local.hex --force && \
     mix local.rebar --force
+
+#------------------------------- BUILD -------------------------------#
+FROM base AS build
 
 # set build ENV
 ENV MIX_ENV=prod
@@ -26,6 +29,12 @@ COPY apps/web/assets/package.json apps/web/assets/package-lock.json ./apps/web/a
 
 RUN npm --prefix ./apps/web/assets ci --progress=false --no-audit --loglevel=error
 
+COPY .releaserc .releaserc
+COPY .git .git
+
+#------------------------------- ERLANG_RELEASE -------------------------------#
+FROM build as erlang_release
+
 COPY apps/web/priv apps/web/priv
 COPY apps/web/assets apps/web/assets
 RUN npm run --prefix ./apps/web/assets deploy
@@ -35,7 +44,7 @@ RUN mix phx.digest
 COPY . .
 RUN mix do compile, release
 
-# prepare release image
+#------------------------------- APP -------------------------------#
 FROM alpine:3.9 AS app
 RUN apk add --no-cache openssl ncurses-libs
 
@@ -45,7 +54,7 @@ RUN chown nobody:nobody /app
 
 USER nobody:nobody
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/aws_sauron ./
+COPY --from=erlang_release --chown=nobody:nobody /app/_build/prod/rel/aws_sauron ./
 
 ENV HOME=/app
 
